@@ -3,8 +3,13 @@ sMartensite is a Deep-Learning Project to classify FSD-SEM images into the phase
 
 To clone the project use the command:
 ```
-git clone --recurse-submodules -j2 https://github.com/EAH-Materials/sMartensite.git
+git clone https://github.com/EAH-Materials/sMartensite.git
 ```
 
-The submodule mtex-toolbox is included for preprocessing of EBSD-Data, which is used to generate ground truth labels for training a CNN. 
+The mtex-toolbox must be included for preprocessing of EBSD-Data, which is used to generate ground truth labels for training a CNN. Download the compiled version here:
+
+https://github.com/mtex-toolbox/mtex/releases/download/mtex-5.11.2/mtex-5.11.2.zip
+
+and extract it into ```preprocessing/mtex```
+
 
