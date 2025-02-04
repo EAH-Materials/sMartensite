@@ -1,0 +1,8 @@
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
+!README.md
+#whitelist 1 file
+!ctfs
+!ctfs/120_100°C_100C_00.ctf
