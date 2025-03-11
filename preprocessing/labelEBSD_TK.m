@@ -42,6 +42,13 @@ fname = [pname filesep file];
 % create an EBSD variable containing the data
 ebsd = EBSD.load(fname,CS,'interface','ctf',...
   'convertEuler2SpatialReferenceFrame');
+% Da wir nun für jedes Korn die Pixelpositionen kennen und einen Typen zuweisen, 
+% können wir eine Art Phasenmap erstellen, in der wir jedem Pixel im Bild
+% einen Wert zuweisen können
+phaseMap = get_dummy_image(ebsd);
+
+% Setze Phase 1 für Austenit
+phaseMap(ebsd.phase == 1) = 1;
 
 %% reconstruct grains
 [grains, ebsd.grainId] = calcGrains(ebsd,'alpha',2.2,'angle',10*degree,'minPixel',8);...;
@@ -85,15 +92,6 @@ bnd = plot(mart_Grains.boundary,'linewidth',2,'linecolor','b');
 prompt = "What itype is the Martensite? (1: thermal, 2: mechanical, 3: Surface)";
 
 % Schleife über alle Martensitkörner. 
-% TODO:
-% Da wir nun für jedes Korn die Pixelpositionen kennen und einen Typen zuweisen, 
-% können wir eine Art Phasenmap erstellen, in der wir jedem Pixel im Bild
-% einen Wert zuweisen können
-phaseMap = get_dummy_image(ebsd);
-
-% Setze Phase 1 für Austenit
-phaseMap(ebsd.phase == 1) = 1;
-
 % Weise Martensitkörner interaktiv zu
 plot_grain_padding = 30;
 for id = 1:size(mart_Grains)
@@ -108,8 +106,8 @@ hold off;
 
 % Plotte die gelabelten Phasen
 phaseMap(:) = ebsd.phase; 
-figure(2); clf;
-imagesc(phaseMap');
+f2 = figure(3); clf;
+imagesc(phaseMap);
 axis image
 cmap = lines(6);
 colormap(cmap);
@@ -119,7 +117,8 @@ title('Assigned Label')
 
 %%   Save Stuff
 [path, filename, ext] = fileparts(fname);
-save([filename '_label.mat'],"phaseMap","val_keys");
+save(['data' filesep 'preprocessed' filesep filename '_label.mat'],"phaseMap","val_keys");
+saveas(f2,['data' filesep 'preprocessed' filesep filename '_label.png'])
 
 %% Functions
 % Diese Funktion erstellt nur ein leeres 2D array (ein Bild mit Nullen
@@ -130,5 +129,5 @@ function img = get_dummy_image(ebsd,type)
     end
     nx = size(unique(ebsd.prop.x),1);
     ny = size(unique(ebsd.prop.y),1);
-    img = zeros(nx,ny,type);
+    img = zeros(ny,nx,type);
 end

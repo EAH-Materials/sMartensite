@@ -99,7 +99,7 @@ hold off;
 % Plotte die gelabelten Phasen
 phaseMap(:) = ebsd.phase; 
 f2 = figure(2); clf;
-imagesc(phaseMap');
+imagesc(phaseMap);
 axis image
 cmap = lines(6);
 colormap(cmap);
@@ -111,6 +111,7 @@ title('Assigned Label')
 [path, filename, ext] = fileparts(fname);
 save(['data' filesep 'preprocessed' filesep filename '_label.mat'],"phaseMap","val_keys");
 saveas(f2,['data' filesep 'preprocessed' filesep filename '_label.png'])
+
 %% Functions
 % Diese Funktion erstellt nur ein leeres 2D array (ein Bild mit Nullen
 % quasi) in der Größe der EBSD-Map
@@ -120,5 +121,5 @@ function img = get_dummy_image(ebsd,type)
     end
     nx = size(unique(ebsd.prop.x),1);
     ny = size(unique(ebsd.prop.y),1);
-    img = zeros(nx,ny,type);
+    img = zeros(ny,nx,type);
 end
