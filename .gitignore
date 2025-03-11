@@ -35,6 +35,12 @@ ENV/
 env.bak/
 venv.bak/
 
-preprocessing/mtex*
+preprocessing/mtex*/
+training
+utilities
+architectures
+
 *.asv
-*.fig
+*.png
+*.mat
+
